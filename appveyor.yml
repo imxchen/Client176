@@ -1,0 +1,5 @@
+image: Visual Studio 2019
+configuration: Release
+platform: Win32
+build:
+  project: AuthHook\AuthHook.sln
