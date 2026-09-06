@@ -1,10 +1,7 @@
 name: Build Client176 DLL
 
 on:
-  workflow_dispatch:  # 让你可以手动点击运行
-
-env:
-  SOLUTION_FILE_PATH: .  # 项目根目录下有 .sln 文件
+  workflow_dispatch:
 
 jobs:
   build:
@@ -14,18 +11,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Add MSBuild to PATH
+    - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    - name: Restore NuGet packages (如果有)
-      run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
-
-    - name: Build the solution (Release x86)
+    - name: Build solution (Release x86)
       run: |
-        msbuild /m /p:Configuration=Release /p:Platform=x86 /p:OutDir=./output/ ${{ env.SOLUTION_FILE_PATH }}
+        msbuild /m /p:Configuration=Release /p:Platform=x86 /p:OutDir=.\output\ *.sln
 
-    - name: Upload the generated DLL as artifact
+    - name: Upload DLL artifact
       uses: actions/upload-artifact@v4
       with:
         name: ijl15.dll
-        path: ./output/ijl15.dll
+        path: output/ijl15.dll
